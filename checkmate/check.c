@@ -4,15 +4,11 @@ bool    right_input(char from_x, char from_y, char to_x, char to_y)
 {
     char    x_check[] = "12345678";
     char    y_check[] = "abcdefgh";
-    bool    from_x_is_here;
-    bool    to_x_is_here;
-    bool    from_y_is_here;
-    bool    to_y_is_here;
+    bool    from_x_is_here = false;
+    bool    to_x_is_here = false;
+    bool    from_y_is_here = false;
+    bool    to_y_is_here = false;
 
-    from_x_is_here = false;
-    to_x_is_here = false;
-    from_x_is_here = false;
-    to_y_is_here = false;
     for (int i = 0; i < 8; i++)
     {
         if (from_x == x_check[i])
@@ -29,7 +25,7 @@ bool    right_input(char from_x, char from_y, char to_x, char to_y)
     return true;
 }
 
-void    check_end(char **chessboard)
+void	check_end(char **chessboard)
 {
     bool white_dead = true;
     bool black_dead = true;
@@ -45,16 +41,13 @@ void    check_end(char **chessboard)
     if (white_dead && !black_dead)
     {
         printf("\nBlack wins\n");
+		free(chessboard);
         exit (1);
     }
     if (black_dead && !white_dead)
     {
         printf("\nWhite wins\n");
-        exit (1);
-    }
-    if (white_dead && black_dead)
-    {
-        printf("\nWTF\n");
+		free(chessboard);
         exit (1);
     }
 }

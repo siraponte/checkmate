@@ -1,13 +1,13 @@
 #include "checkmate.h"
 
-int		move(char **chessboard, t_coordinates from, t_coordinates to, bool is_white)
+bool	move(char **chessboard, t_coordinates from, t_coordinates to, bool is_white)
 {
-	int erro;
+	bool	erro = false;
 
+	if (FROM == '.')
+            ERROR(4, back);
     if (is_white)
     {
-        if (FROM == '.')
-            ERROR(4, back);
         if (FROM == 'P')
             erro = move_pawn(chessboard, from, to, true);
         else if (FROM == 'R')
@@ -23,8 +23,6 @@ int		move(char **chessboard, t_coordinates from, t_coordinates to, bool is_white
     }
     else
     {
-        if (FROM == '.')
-            ERROR(4, back);
         if (FROM == 'p')
             erro = move_pawn(chessboard, from, to, false);
         else if (FROM == 'r')
@@ -38,14 +36,15 @@ int		move(char **chessboard, t_coordinates from, t_coordinates to, bool is_white
         else if (FROM == 'q')
             erro = move_queen(chessboard, from, to, false);
     }
-	if (erro == 1)
+	if (!erro)
 		ERROR(3, back);
-	return 0;
+	return true;
+
 back:
-	return 1;
+	return false;
 }
 
-int		move_king(char **chessboard, t_coordinates from, t_coordinates to, bool is_white)
+bool	move_king(char **chessboard, t_coordinates from, t_coordinates to, bool is_white)
 {
     int     i;
     int     x[] = {-1, -1, -1, 0, 0, 1, 1, 1};
@@ -54,54 +53,36 @@ int		move_king(char **chessboard, t_coordinates from, t_coordinates to, bool is_
     i = 0;
     while (i < 8)
     {
-        if (is_white && WHITE && WHITE_OK)
+        if (WHITE && WHITE_OK)
             MOVE
-        if (!is_white && BLACK && BLACK_OK)
+        if (BLACK && BLACK_OK)
             MOVE
         i++;
     }
-	return 1;
+	return false;
 }
 
-int		move_pawn(char **chessboard, t_coordinates from, t_coordinates to, bool is_white)
+bool	move_pawn(char **chessboard, t_coordinates from, t_coordinates to, bool is_white)
 {
     int     i;
     int     x[] = {1, 2, 1, 1};
     int     y[] = {0, 0, -1, 1};
     
     i = 0;
-    if (is_white)
-    {
-        if (WHITE && TO == '.')
-            MOVE
-        i++;
-        if (WHITE && from.x == 1)
-            MOVE
-        i++;
-        if (WHITE && TO != '.')
-            MOVE
-        i++;
-        if (WHITE && TO != '.')
-            MOVE
-    }
-    else
-    {
-        if (BLACK && TO == '.')
-            MOVE
-        i++;
-        if (BLACK && from.x == 6)
-            MOVE
-        i++;
-        if (BLACK && TO != '.')
-            MOVE
-        i++;
-        if (BLACK && TO != '.')
-            MOVE
-    }
-	return 1;
+	while (i < 4)
+	{
+		if ((WHITE || BLACK) && TO == '.')
+			MOVE
+		if ((WHITE && from.x == 1) || (BLACK && from.x == 6))
+			MOVE
+		if ((WHITE || BLACK) && TO != '.')
+			MOVE
+		i++;
+	}
+	return false;
 }
 
-int		move_knight(char **chessboard, t_coordinates from, t_coordinates to, bool is_white)
+bool	move_knight(char **chessboard, t_coordinates from, t_coordinates to, bool is_white)
 {
     int     i;
     int     x[] = {-2, -1, 1, 2, -2, -1, 1, 2};
@@ -110,16 +91,16 @@ int		move_knight(char **chessboard, t_coordinates from, t_coordinates to, bool i
     i = 0;
     while (i < 8)
     {
-        if (is_white && WHITE && WHITE_OK)
+        if (WHITE && WHITE_OK)
             MOVE
-        if (!is_white && BLACK && BLACK_OK)
+        if (BLACK && BLACK_OK)
             MOVE
         i++;
     }
-	return 1;
+	return false;
 }
 
-int		move_rook(char **chessboard, t_coordinates from, t_coordinates to, bool is_white)
+bool	move_rook(char **chessboard, t_coordinates from, t_coordinates to, bool is_white)
 {
     int     i;
     
@@ -129,7 +110,7 @@ int		move_rook(char **chessboard, t_coordinates from, t_coordinates to, bool is_
         while (from.y > to.y ? from.y - i > to.y : from.y + i < to.y)
         {
             if (MOVING(from.x, from.y + (is_white ? i : -i)) != '.')
-                exit(1);
+                return false;
             i++;
         }
     }
@@ -138,18 +119,18 @@ int		move_rook(char **chessboard, t_coordinates from, t_coordinates to, bool is_
         while (from.x > to.x ? from.x - i > to.x : from.x + i < to.y)
         {
             if (MOVING(from.x + (is_white ? i : -i), from.y) != '.')
-                exit(1);
+                return false;
             i++;
         }
     }
-    if (is_white && WHITE_OK)
+    if (WHITE_OK)
         MOVE
-    else if (!is_white && BLACK_OK)
+    else if (BLACK_OK)
         MOVE
-	return 1;
+	return false;
 }
 
-int		move_bishop(char **chessboard, t_coordinates from, t_coordinates to, bool is_white)
+bool	move_bishop(char **chessboard, t_coordinates from, t_coordinates to, bool is_white)
 {
     int i;
     
@@ -161,7 +142,7 @@ int		move_bishop(char **chessboard, t_coordinates from, t_coordinates to, bool i
             while (from.x - i > to.x && from.y - i > to.y)
             {
                 if (MOVING(from.x - i, from.y - i) != '.')
-                     return 1;
+                     return false;
                 i++;
             }
         }
@@ -170,7 +151,7 @@ int		move_bishop(char **chessboard, t_coordinates from, t_coordinates to, bool i
             while (from.x - i > to.x && from.y + i < to.y)
             {
                 if (MOVING(from.x - i, from.y + i) != '.')
-                     return 1;
+                     return false;
                 i++;
             }
         }
@@ -182,7 +163,7 @@ int		move_bishop(char **chessboard, t_coordinates from, t_coordinates to, bool i
             while (from.x + i < to.x && from.y - i > to.y)
             {
                 if (MOVING(from.x + i, from.y - i) != '.')
-                     return 1;
+                     return false;
                 i++;
             }
         }
@@ -191,19 +172,19 @@ int		move_bishop(char **chessboard, t_coordinates from, t_coordinates to, bool i
             while (from.x + i < to.x && from.y + i < to.y)
             {
                 if (MOVING(from.x + i, from.y + i) != '.')
-                     return 1;
+                     return false;
                 i++;
             }
         }
     }
-    if (is_white && WHITE_OK)
+    if (WHITE_OK)
         MOVE
-    else if (!is_white && BLACK_OK)
+    else if (BLACK_OK)
         MOVE
-	return 1;
+	return false;
 }
 
-int		move_queen(char **chessboard, t_coordinates from, t_coordinates to, bool is_white)
+bool	move_queen(char **chessboard, t_coordinates from, t_coordinates to, bool is_white)
 {
     int     i;
     
@@ -213,7 +194,7 @@ int		move_queen(char **chessboard, t_coordinates from, t_coordinates to, bool is
         while (from.y > to.y ? from.y - i > to.y : from.y + i < to.y)
         {
             if (MOVING(from.x, from.y + (is_white ? i : -i)) != '.')
-                return 1;
+                return false;
             i++;
         }
     }
@@ -222,7 +203,7 @@ int		move_queen(char **chessboard, t_coordinates from, t_coordinates to, bool is
         while (from.x > to.x ? from.x - i > to.x : from.x + i < to.y)
         {
             if (MOVING(from.x + (is_white ? i : -i), from.y) != '.')
-                 return 1;
+                 return false;
             i++;
         }
     }
@@ -234,7 +215,7 @@ int		move_queen(char **chessboard, t_coordinates from, t_coordinates to, bool is
             while (from.x - i > to.x && from.y - i > to.y)
             {
                 if (MOVING(from.x - i, from.y - i) != '.')
-                     return 1;
+                     return false;
                 i++;
             }
         }
@@ -243,7 +224,7 @@ int		move_queen(char **chessboard, t_coordinates from, t_coordinates to, bool is
             while (from.x - i > to.x && from.y + i < to.y)
             {
                 if (MOVING(from.x - i, from.y + i) != '.')
-					 return 1;
+					 return false;
                 i++;
             }
         }
@@ -255,7 +236,7 @@ int		move_queen(char **chessboard, t_coordinates from, t_coordinates to, bool is
             while (from.x + i < to.x && from.y - i > to.y)
             {
                 if (MOVING(from.x + i, from.y - i) != '.')
-                     return 1;
+                     return false;
                 i++;
             }
         }
@@ -264,14 +245,14 @@ int		move_queen(char **chessboard, t_coordinates from, t_coordinates to, bool is
             while (from.x + i < to.x && from.y + i < to.y)
             {
                 if (MOVING(from.x + i, from.y + i) != '.')
-                     return 1;
+                     return false;
                 i++;
             }
         }
     }
-    if (is_white && WHITE_OK)
+    if (WHITE_OK)
         MOVE
-    else if (!is_white && BLACK_OK)
+    else if (BLACK_OK)
         MOVE
-	return 0;
+	return false;
 }

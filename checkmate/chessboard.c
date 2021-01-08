@@ -12,10 +12,7 @@ void    print(char **chessboard, bool is_white)
         {
             printf("%c\t", x[i]);
             for (int j = 0; j < 8; j++)
-            {
-                printf("%c", SQUARE);
-                printf("    ");
-            }
+                printf("%c    ", SQUARE);
             printf("\n\n");
         }
         printf("\n    ");
@@ -30,10 +27,7 @@ void    print(char **chessboard, bool is_white)
         {
             printf("%c\t", x[i]);
             for (int j = 7; j >= 0; j--)
-            {
-                printf("%c", SQUARE);
-                printf("    ");
-            }
+                printf("%c    ", SQUARE);
             printf("\n\n");
         }
         printf("\n    ");
@@ -58,7 +52,7 @@ char    **create_chessboard(void)
     }
     for (int i = 0; i < 8; i++)
         for(int j = 0; j < 8; j++)
-            chessboard[i][j] = '.';
+            SQUARE = '.';
     chessboard[0][0] = 'R';
     chessboard[0][1] = 'N';
     chessboard[0][2] = 'B';

@@ -1,6 +1,6 @@
 #include "checkmate.h"
 
-int     error(int error)
+void	error(int error)
 {
 	if (error == 0)
 	{
@@ -15,5 +15,4 @@ int     error(int error)
 		printf("\nError: Invalid move\n\n");
 	if (error == 4)
 		printf("\nError: Square is blank\n\n");
-	return (0);
 }
