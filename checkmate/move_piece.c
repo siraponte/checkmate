@@ -105,27 +105,13 @@ bool	move_rook(char **chessboard, t_coordinates from, t_coordinates to, bool is_
     int     i;
     
     i = 1;
-    if (from.x == to.x)
+    while (MOVING_ROOK)
     {
-        while (from.y > to.y ? from.y - i > to.y : from.y + i < to.y)
-        {
-            if (MOVING(from.x, from.y + (is_white ? i : -i)) != '.')
-                return false;
-            i++;
-        }
+        if (NOT_VALID_ROOK)
+            return false;
+        i++;
     }
-    else if (from.y == to.y)
-    {
-        while (from.x > to.x ? from.x - i > to.x : from.x + i < to.y)
-        {
-            if (MOVING(from.x + (is_white ? i : -i), from.y) != '.')
-                return false;
-            i++;
-        }
-    }
-    if (WHITE_OK)
-        MOVE
-    else if (BLACK_OK)
+    if (WHITE_OK || BLACK_OK)
         MOVE
 	return false;
 }
@@ -135,51 +121,13 @@ bool	move_bishop(char **chessboard, t_coordinates from, t_coordinates to, bool i
     int i;
     
     i = 1;
-    if (from.x > to.x)
+    while (MOVING_BISHOP)
     {
-        if(from.y > to.y)
-        {
-            while (from.x - i > to.x && from.y - i > to.y)
-            {
-                if (MOVING(from.x - i, from.y - i) != '.')
-                     return false;
-                i++;
-            }
-        }
-        else
-        {
-            while (from.x - i > to.x && from.y + i < to.y)
-            {
-                if (MOVING(from.x - i, from.y + i) != '.')
-                     return false;
-                i++;
-            }
-        }
+		if (NOT_VALID_BISHOP)
+			return false;
+        i++;
     }
-	else
-    {
-        if(from.y > to.y)
-        {
-            while (from.x + i < to.x && from.y - i > to.y)
-            {
-                if (MOVING(from.x + i, from.y - i) != '.')
-                     return false;
-                i++;
-            }
-        }
-        else
-        {
-            while (from.x + i < to.x && from.y + i < to.y)
-            {
-                if (MOVING(from.x + i, from.y + i) != '.')
-                     return false;
-                i++;
-            }
-        }
-    }
-    if (WHITE_OK)
-        MOVE
-    else if (BLACK_OK)
+    if (WHITE_OK || BLACK_OK)
         MOVE
 	return false;
 }
@@ -189,70 +137,20 @@ bool	move_queen(char **chessboard, t_coordinates from, t_coordinates to, bool is
     int     i;
     
     i = 1;
-    if (from.x == to.x)
+    while (MOVING_ROOK)
     {
-        while (from.y > to.y ? from.y - i > to.y : from.y + i < to.y)
-        {
-            if (MOVING(from.x, from.y + (is_white ? i : -i)) != '.')
-                return false;
-            i++;
-        }
-    }
-    else if (from.y == to.y)
-    {
-        while (from.x > to.x ? from.x - i > to.x : from.x + i < to.y)
-        {
-            if (MOVING(from.x + (is_white ? i : -i), from.y) != '.')
-                 return false;
-            i++;
-        }
+        if (NOT_VALID_ROOK)
+            return false;
+        i++;
     }
     i = 1;
-    if (from.x > to.x)
+    while (MOVING_BISHOP)
     {
-        if(from.y > to.y)
-        {
-            while (from.x - i > to.x && from.y - i > to.y)
-            {
-                if (MOVING(from.x - i, from.y - i) != '.')
-                     return false;
-                i++;
-            }
-        }
-        else
-        {
-            while (from.x - i > to.x && from.y + i < to.y)
-            {
-                if (MOVING(from.x - i, from.y + i) != '.')
-					 return false;
-                i++;
-            }
-        }
+		if (NOT_VALID_BISHOP)
+			return false;
+        i++;
     }
-	else
-    {
-        if(from.y > to.y)
-        {
-            while (from.x + i < to.x && from.y - i > to.y)
-            {
-                if (MOVING(from.x + i, from.y - i) != '.')
-                     return false;
-                i++;
-            }
-        }
-        else
-        {
-            while (from.x + i < to.x && from.y + i < to.y)
-            {
-                if (MOVING(from.x + i, from.y + i) != '.')
-                     return false;
-                i++;
-            }
-        }
-    }
-    if (WHITE_OK)
-        MOVE
-    else if (BLACK_OK)
+    if (WHITE_OK || BLACK_OK)
         MOVE
 	return false;
 }

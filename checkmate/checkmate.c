@@ -33,17 +33,17 @@ invalid:
 
 void    players(void)
 {
-    char    name_1[N] = {[N - 1] = '0'};
-    char    name_2[N] = {[N - 1] = '0'};
+    char    name_1[N] = {[N - 1] = '\0'};
+    char    name_2[N] = {[N - 1] = '\0'};
 
 name:
     printf("Enter First Player Name: \n");
     scanf(" %46[^\n]", name_1);
-    if (name_1[N - 1] != '0')
+    if (name_1[N - 1] != '\0')
 		ERROR(0, name);
     printf("Enter Second Player Name: \n");
     scanf(" %46[^\n]", name_2);
-    if (name_2[N - 1] != '0')
+    if (name_2[N - 1] != '\0')
 		ERROR(0, name)
     if (!strcmp(name_1, name_2))
 		ERROR(1, name);
