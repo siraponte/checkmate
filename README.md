@@ -1,3 +1,3 @@
 # Checkmate
 
-Chess Emulator in C
+Chess Emulator
